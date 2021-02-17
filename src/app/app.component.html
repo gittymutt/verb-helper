@@ -1,0 +1,92 @@
+<form [formGroup]="form">
+<input 
+   type="text" 
+   placeholder="put subject here" 
+   value="the dog" 
+   #subjectTxt
+   formControlName="subject"
+   >
+<input 
+   type="text" 
+   placeholder="put verb here" 
+   value="go" 
+   #verbTxt
+   formControlName="verb">
+<button (click)="change(subjectTxt.value, verbTxt)">Change</button>
+
+<div>
+    <input  
+      type="radio" 
+      name="number"  
+      value="singular" 
+      (change)="radioChange($event)" 
+      formControlName="number">
+    <label class="custom-control-label" for="singular">Third person singular</label>
+ </div>
+ <div>
+    <input  
+      type="radio"   
+      name="number" 
+      value="plural" 
+     
+      (change)="radioChange($event)"
+      formControlName="number">
+   <label class="custom-control-label" for="plural">Other</label>
+ </div>
+</form>
+
+
+
+<div *ngIf="isBe; else elseBlock">
+   <app-show-be 
+      [subject]="subject"
+      [be]="be"
+      [isSingular]="isSingular"
+   ></app-show-be>
+
+</div>
+
+<ng-template #elseBlock>
+   <h2>Simple Present</h2>
+   {{ subject | capitalizeFirst }} 
+   {{ (isSingular)?verb.thirdpers:verb.baseform}}
+   <br>
+   {{ subject | capitalizeFirst }} 
+   {{ (isSingular)?"doesn't":"don't"}} 
+   {{ verb.baseform }}
+   <br>
+   {{ (isSingular)?"Does":"Do"}} 
+   {{ subject }} 
+   {{ verb.baseform }} ?
+   <br>
+
+   <h2>Present Progressive/Continuous</h2>
+   {{ subject }} {{ be.affC }} {{ verb.ingform}} <br>
+   {{ subject }} {{ be.negC1 }} {{ verb.ingform}} <br>
+   {{ be.affNc }} {{ subject }} {{ verb.ingform}} ?<br>
+  
+
+   <h2>Simple Past</h2>
+   {{ subject | capitalizeFirst }} 
+   {{ verb.simplepast }} 
+   <br>
+   {{ subject | capitalizeFirst }} 
+   didn't {{ verb.baseform }}
+   <br>
+   Did {{ subject }} 
+   {{ verb.baseform }} ?
+   <br>
+
+   <h2>Present Perfect</h2>
+   {{ subject }} 
+   {{ (isSingular)?"has":"have" }} 
+   {{ verb.pastpart }}
+   <br>
+   {{ subject }} 
+   {{ (isSingular)?"hasn't":"haven't" }} 
+   {{ verb.pastpart }}
+   <br>
+   {{ (isSingular)?"has":"have" }} 
+   {{ subject }} 
+   {{ verb.pastpart }} ?
+</ng-template>
